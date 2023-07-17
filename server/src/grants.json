@@ -88,5 +88,65 @@
     "resource": "Listing",
     "action": "delete:any",
     "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Image",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Image",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Image",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Image",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Image",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Image",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Image",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Image",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Image",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Image",
+    "action": "read:any",
+    "attributes": "*"
   }
 ]

@@ -21,12 +21,16 @@ import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { ListingService } from "../listing.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
+import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { ListingCreateInput } from "./ListingCreateInput";
 import { ListingWhereInput } from "./ListingWhereInput";
 import { ListingWhereUniqueInput } from "./ListingWhereUniqueInput";
 import { ListingFindManyArgs } from "./ListingFindManyArgs";
 import { ListingUpdateInput } from "./ListingUpdateInput";
 import { Listing } from "./Listing";
+import { ImageFindManyArgs } from "../../image/base/ImageFindManyArgs";
+import { Image } from "../../image/base/Image";
+import { ImageWhereUniqueInput } from "../../image/base/ImageWhereUniqueInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -285,5 +289,110 @@ export class ListingControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id/images")
+  @ApiNestedQuery(ImageFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "Image",
+    action: "read",
+    possession: "any",
+  })
+  async findManyImages(
+    @common.Req() request: Request,
+    @common.Param() params: ListingWhereUniqueInput
+  ): Promise<Image[]> {
+    const query = plainToClass(ImageFindManyArgs, request.query);
+    const results = await this.service.findImages(params.id, {
+      ...query,
+      select: {
+        alt: true,
+        createdAt: true,
+        id: true,
+
+        listing: {
+          select: {
+            id: true,
+          },
+        },
+
+        order: true,
+        updatedAt: true,
+        url: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/images")
+  @nestAccessControl.UseRoles({
+    resource: "Listing",
+    action: "update",
+    possession: "any",
+  })
+  async connectImages(
+    @common.Param() params: ListingWhereUniqueInput,
+    @common.Body() body: ImageWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      images: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/images")
+  @nestAccessControl.UseRoles({
+    resource: "Listing",
+    action: "update",
+    possession: "any",
+  })
+  async updateImages(
+    @common.Param() params: ListingWhereUniqueInput,
+    @common.Body() body: ImageWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      images: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/images")
+  @nestAccessControl.UseRoles({
+    resource: "Listing",
+    action: "update",
+    possession: "any",
+  })
+  async disconnectImages(
+    @common.Param() params: ListingWhereUniqueInput,
+    @common.Body() body: ImageWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      images: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

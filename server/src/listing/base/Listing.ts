@@ -22,6 +22,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { EnumListingCondition } from "./EnumListingCondition";
+import { Image } from "../../image/base/Image";
 import { User } from "../../user/base/User";
 
 @ObjectType()
@@ -70,6 +71,15 @@ class Listing {
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Image],
+  })
+  @ValidateNested()
+  @Type(() => Image)
+  @IsOptional()
+  images?: Array<Image>;
 
   @ApiProperty({
     required: false,

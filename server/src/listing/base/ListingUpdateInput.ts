@@ -21,6 +21,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { EnumListingCondition } from "./EnumListingCondition";
+import { ImageUpdateManyWithoutListingsInput } from "./ImageUpdateManyWithoutListingsInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 
 @InputType()
@@ -58,6 +59,18 @@ class ListingUpdateInput {
     nullable: true,
   })
   description?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ImageUpdateManyWithoutListingsInput,
+  })
+  @ValidateNested()
+  @Type(() => ImageUpdateManyWithoutListingsInput)
+  @IsOptional()
+  @Field(() => ImageUpdateManyWithoutListingsInput, {
+    nullable: true,
+  })
+  images?: ImageUpdateManyWithoutListingsInput;
 
   @ApiProperty({
     required: false,
