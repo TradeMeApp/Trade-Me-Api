@@ -12,8 +12,9 @@ https://docs.amplication.com/how-to/custom-code
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsOptional, ValidateNested } from "class-validator";
-import { ListingCreateNestedManyWithoutUsersInput } from "./ListingCreateNestedManyWithoutUsersInput";
+import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
 import { Type } from "class-transformer";
+import { ListingCreateNestedManyWithoutUsersInput } from "./ListingCreateNestedManyWithoutUsersInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
@@ -30,6 +31,18 @@ class UserCreateInput {
     nullable: true,
   })
   bio?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommentCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  comments?: CommentCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

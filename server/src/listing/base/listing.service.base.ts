@@ -10,7 +10,14 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, Listing, Image, Category, User } from "@prisma/client";
+import {
+  Prisma,
+  Listing,
+  Comment,
+  Image,
+  Category,
+  User,
+} from "@prisma/client";
 
 export class ListingServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -45,6 +52,17 @@ export class ListingServiceBase {
     args: Prisma.SelectSubset<T, Prisma.ListingDeleteArgs>
   ): Promise<Listing> {
     return this.prisma.listing.delete(args);
+  }
+
+  async findComments(
+    parentId: string,
+    args: Prisma.CommentFindManyArgs
+  ): Promise<Comment[]> {
+    return this.prisma.listing
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .comments(args);
   }
 
   async findImages(

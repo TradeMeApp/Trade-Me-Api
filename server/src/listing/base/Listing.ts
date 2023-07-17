@@ -14,13 +14,14 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Category } from "../../category/base/Category";
 import {
   ValidateNested,
+  IsOptional,
   IsEnum,
   IsDate,
   IsString,
-  IsOptional,
   IsBoolean,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { Comment } from "../../comment/base/Comment";
 import { EnumListingCondition } from "./EnumListingCondition";
 import { Image } from "../../image/base/Image";
 import { User } from "../../user/base/User";
@@ -34,6 +35,15 @@ class Listing {
   @ValidateNested()
   @Type(() => Category)
   category?: Category;
+
+  @ApiProperty({
+    required: false,
+    type: () => [Comment],
+  })
+  @ValidateNested()
+  @Type(() => Comment)
+  @IsOptional()
+  comments?: Array<Comment>;
 
   @ApiProperty({
     required: true,

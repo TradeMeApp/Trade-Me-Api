@@ -14,12 +14,13 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CategoryWhereUniqueInput } from "../../category/base/CategoryWhereUniqueInput";
 import {
   ValidateNested,
+  IsOptional,
   IsEnum,
   IsString,
-  IsOptional,
   IsBoolean,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentCreateNestedManyWithoutListingsInput } from "./CommentCreateNestedManyWithoutListingsInput";
 import { EnumListingCondition } from "./EnumListingCondition";
 import { ImageCreateNestedManyWithoutListingsInput } from "./ImageCreateNestedManyWithoutListingsInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
@@ -34,6 +35,18 @@ class ListingCreateInput {
   @Type(() => CategoryWhereUniqueInput)
   @Field(() => CategoryWhereUniqueInput)
   category!: CategoryWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentCreateNestedManyWithoutListingsInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentCreateNestedManyWithoutListingsInput)
+  @IsOptional()
+  @Field(() => CommentCreateNestedManyWithoutListingsInput, {
+    nullable: true,
+  })
+  comments?: CommentCreateNestedManyWithoutListingsInput;
 
   @ApiProperty({
     required: true,
