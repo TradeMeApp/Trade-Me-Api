@@ -2,17 +2,23 @@
   {
     "role": "user",
     "resource": "User",
-    "action": "read:own",
+    "action": "create:any",
     "attributes": "*"
   },
   {
-    "role": "user",
+    "role": "trader",
     "resource": "User",
     "action": "create:any",
     "attributes": "*"
   },
   {
     "role": "user",
+    "resource": "User",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
     "resource": "User",
     "action": "update:any",
     "attributes": "*"
@@ -30,9 +36,9 @@
     "attributes": "*"
   },
   {
-    "role": "user",
-    "resource": "Category",
-    "action": "read:own",
+    "role": "trader",
+    "resource": "User",
+    "action": "read:any",
     "attributes": "*"
   },
   {
@@ -51,12 +57,6 @@
     "role": "user",
     "resource": "Category",
     "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Category",
-    "action": "read:any",
     "attributes": "*"
   }
 ]

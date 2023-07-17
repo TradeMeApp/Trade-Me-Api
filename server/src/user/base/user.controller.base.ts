@@ -21,6 +21,7 @@ import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { UserService } from "../user.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { Public } from "../../decorators/public.decorator";
 import { UserCreateInput } from "./UserCreateInput";
 import { UserWhereInput } from "./UserWhereInput";
 import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
@@ -96,15 +97,10 @@ export class UserControllerBase {
     });
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @common.Get("/:id")
   @swagger.ApiOkResponse({ type: User })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @nestAccessControl.UseRoles({
-    resource: "User",
-    action: "read",
-    possession: "own",
-  })
   @swagger.ApiForbiddenResponse({
     type: errors.ForbiddenException,
   })
