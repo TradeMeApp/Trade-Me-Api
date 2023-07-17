@@ -9,22 +9,46 @@ generator client {
 
 model User {
   bio       String?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
   firstName String?
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   imageUrl  String?
   lastName  String?
+  listings  Listing[]
   password  String
   roles     Json
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  updatedAt DateTime  @updatedAt
+  username  String    @unique
 }
 
 model Category {
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   description String?
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   imageUrl    String?
+  listings    Listing[]
   name        String
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime  @updatedAt
+}
+
+model Listing {
+  category    Category             @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  condition   EnumListingCondition @default([Good])
+  createdAt   DateTime             @default(now())
+  description String?
+  id          String               @id @default(cuid())
+  location    String?
+  owner       User                 @relation(fields: [OwnerId], references: [id])
+  OwnerId     String
+  published   Boolean?             @default(false)
+  title       String
+  updatedAt   DateTime             @updatedAt
+}
+
+enum EnumListingCondition {
+  New
+  Excellent
+  Good
+  Okay
 }

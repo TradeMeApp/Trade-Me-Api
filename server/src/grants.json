@@ -58,5 +58,35 @@
     "resource": "Category",
     "action": "delete:any",
     "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Listing",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Listing",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "trader",
+    "resource": "Listing",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Listing",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Listing",
+    "action": "delete:any",
+    "attributes": "*"
   }
 ]

@@ -1,3 +1,4 @@
+import { Listing } from "../listing/Listing";
 import { JsonValue } from "type-fest";
 
 export type User = {
@@ -7,6 +8,7 @@ export type User = {
   id: string;
   imageUrl: string | null;
   lastName: string | null;
+  listings?: Array<Listing>;
   roles: JsonValue;
   updatedAt: Date;
   username: string;

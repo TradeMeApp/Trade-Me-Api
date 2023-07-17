@@ -27,6 +27,9 @@ import { CategoryWhereUniqueInput } from "./CategoryWhereUniqueInput";
 import { CategoryFindManyArgs } from "./CategoryFindManyArgs";
 import { CategoryUpdateInput } from "./CategoryUpdateInput";
 import { Category } from "./Category";
+import { ListingFindManyArgs } from "../../listing/base/ListingFindManyArgs";
+import { Listing } from "../../listing/base/Listing";
+import { ListingWhereUniqueInput } from "../../listing/base/ListingWhereUniqueInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -190,5 +193,113 @@ export class CategoryControllerBase {
       }
       throw error;
     }
+  }
+
+  @Public()
+  @common.Get("/:id/listings")
+  @ApiNestedQuery(ListingFindManyArgs)
+  async findManyListings(
+    @common.Req() request: Request,
+    @common.Param() params: CategoryWhereUniqueInput
+  ): Promise<Listing[]> {
+    const query = plainToClass(ListingFindManyArgs, request.query);
+    const results = await this.service.findListings(params.id, {
+      ...query,
+      select: {
+        category: {
+          select: {
+            id: true,
+          },
+        },
+
+        condition: true,
+        createdAt: true,
+        description: true,
+        id: true,
+        location: true,
+
+        owner: {
+          select: {
+            id: true,
+          },
+        },
+
+        published: true,
+        title: true,
+        updatedAt: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/listings")
+  @nestAccessControl.UseRoles({
+    resource: "Category",
+    action: "update",
+    possession: "any",
+  })
+  async connectListings(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: ListingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      listings: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/listings")
+  @nestAccessControl.UseRoles({
+    resource: "Category",
+    action: "update",
+    possession: "any",
+  })
+  async updateListings(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: ListingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      listings: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/listings")
+  @nestAccessControl.UseRoles({
+    resource: "Category",
+    action: "update",
+    possession: "any",
+  })
+  async disconnectListings(
+    @common.Param() params: CategoryWhereUniqueInput,
+    @common.Body() body: ListingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      listings: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }

@@ -13,6 +13,10 @@ import { CategoryList } from "./category/CategoryList";
 import { CategoryCreate } from "./category/CategoryCreate";
 import { CategoryEdit } from "./category/CategoryEdit";
 import { CategoryShow } from "./category/CategoryShow";
+import { ListingList } from "./listing/ListingList";
+import { ListingCreate } from "./listing/ListingCreate";
+import { ListingEdit } from "./listing/ListingEdit";
+import { ListingShow } from "./listing/ListingShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -52,6 +56,13 @@ const App = (): React.ReactElement => {
           edit={CategoryEdit}
           create={CategoryCreate}
           show={CategoryShow}
+        />
+        <Resource
+          name="Listing"
+          list={ListingList}
+          edit={ListingEdit}
+          create={ListingCreate}
+          show={ListingShow}
         />
       </Admin>
     </div>
