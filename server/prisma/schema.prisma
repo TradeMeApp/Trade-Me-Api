@@ -9,6 +9,7 @@ generator client {
 
 model User {
   bio       String?
+  comments  Comment[]
   createdAt DateTime  @default(now())
   firstName String?
   id        String    @id @default(cuid())
@@ -34,6 +35,7 @@ model Category {
 model Listing {
   category    Category             @relation(fields: [categoryId], references: [id])
   categoryId  String
+  comments    Comment[]
   condition   EnumListingCondition @default([Good])
   createdAt   DateTime             @default(now())
   description String?
@@ -56,6 +58,20 @@ model Image {
   order     Int
   updatedAt DateTime @updatedAt
   url       String
+}
+
+model Comment {
+  author      User      @relation(fields: [Author], references: [id])
+  Author      String
+  commented   Comment?  @relation(name: "commentOn", fields: [commentedId], references: [id])
+  commentedId String?
+  commentOn   Comment[] @relation(name: "commentOn")
+  createdAt   DateTime  @default(now())
+  id          String    @id @default(cuid())
+  listing     Listing   @relation(fields: [Comments], references: [id])
+  Comments    String
+  text        String
+  updatedAt   DateTime  @updatedAt
 }
 
 enum EnumListingCondition {

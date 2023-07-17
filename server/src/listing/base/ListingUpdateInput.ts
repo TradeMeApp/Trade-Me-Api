@@ -20,6 +20,7 @@ import {
   IsBoolean,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentUpdateManyWithoutListingsInput } from "./CommentUpdateManyWithoutListingsInput";
 import { EnumListingCondition } from "./EnumListingCondition";
 import { ImageUpdateManyWithoutListingsInput } from "./ImageUpdateManyWithoutListingsInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
@@ -37,6 +38,18 @@ class ListingUpdateInput {
     nullable: true,
   })
   category?: CategoryWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentUpdateManyWithoutListingsInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentUpdateManyWithoutListingsInput)
+  @IsOptional()
+  @Field(() => CommentUpdateManyWithoutListingsInput, {
+    nullable: true,
+  })
+  comments?: CommentUpdateManyWithoutListingsInput;
 
   @ApiProperty({
     required: false,

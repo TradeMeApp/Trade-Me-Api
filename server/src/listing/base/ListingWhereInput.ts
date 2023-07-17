@@ -14,6 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { CategoryWhereUniqueInput } from "../../category/base/CategoryWhereUniqueInput";
 import { ValidateNested, IsOptional, IsEnum } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
 import { EnumListingCondition } from "./EnumListingCondition";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
@@ -34,6 +35,18 @@ class ListingWhereInput {
     nullable: true,
   })
   category?: CategoryWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommentListRelationFilter)
+  @IsOptional()
+  @Field(() => CommentListRelationFilter, {
+    nullable: true,
+  })
+  comments?: CommentListRelationFilter;
 
   @ApiProperty({
     required: false,
