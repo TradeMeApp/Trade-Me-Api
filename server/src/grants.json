@@ -92,18 +92,6 @@
   {
     "role": "user",
     "resource": "Image",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "trader",
-    "resource": "Image",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Image",
     "action": "create:any",
     "attributes": "*"
   },
@@ -135,18 +123,6 @@
     "role": "trader",
     "resource": "Image",
     "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Image",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "trader",
-    "resource": "Image",
-    "action": "read:any",
     "attributes": "*"
   }
 ]

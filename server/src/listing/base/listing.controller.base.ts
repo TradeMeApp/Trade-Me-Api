@@ -21,7 +21,6 @@ import * as defaultAuthGuard from "../../auth/defaultAuth.guard";
 import { ListingService } from "../listing.service";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { ListingCreateInput } from "./ListingCreateInput";
 import { ListingWhereInput } from "./ListingWhereInput";
 import { ListingWhereUniqueInput } from "./ListingWhereUniqueInput";
@@ -291,14 +290,9 @@ export class ListingControllerBase {
     }
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @common.Get("/:id/images")
   @ApiNestedQuery(ImageFindManyArgs)
-  @nestAccessControl.UseRoles({
-    resource: "Image",
-    action: "read",
-    possession: "any",
-  })
   async findManyImages(
     @common.Req() request: Request,
     @common.Param() params: ListingWhereUniqueInput
