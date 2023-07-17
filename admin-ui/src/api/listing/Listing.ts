@@ -1,4 +1,5 @@
 import { Category } from "../category/Category";
+import { Image } from "../image/Image";
 import { User } from "../user/User";
 
 export type Listing = {
@@ -7,6 +8,7 @@ export type Listing = {
   createdAt: Date;
   description: string | null;
   id: string;
+  images?: Array<Image>;
   location: string | null;
   owner?: User;
   published: boolean | null;

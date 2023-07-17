@@ -21,6 +21,7 @@ import {
 } from "class-validator";
 import { Type } from "class-transformer";
 import { EnumListingCondition } from "./EnumListingCondition";
+import { ImageCreateNestedManyWithoutListingsInput } from "./ImageCreateNestedManyWithoutListingsInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 
 @InputType()
@@ -52,6 +53,18 @@ class ListingCreateInput {
     nullable: true,
   })
   description?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ImageCreateNestedManyWithoutListingsInput,
+  })
+  @ValidateNested()
+  @Type(() => ImageCreateNestedManyWithoutListingsInput)
+  @IsOptional()
+  @Field(() => ImageCreateNestedManyWithoutListingsInput, {
+    nullable: true,
+  })
+  images?: ImageCreateNestedManyWithoutListingsInput;
 
   @ApiProperty({
     required: false,

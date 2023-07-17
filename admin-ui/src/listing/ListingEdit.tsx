@@ -7,10 +7,13 @@ import {
   ReferenceInput,
   SelectInput,
   TextInput,
+  ReferenceArrayInput,
+  SelectArrayInput,
   BooleanInput,
 } from "react-admin";
 
 import { CategoryTitle } from "../category/CategoryTitle";
+import { ImageTitle } from "../image/ImageTitle";
 import { UserTitle } from "../user/UserTitle";
 
 export const ListingEdit = (props: EditProps): React.ReactElement => {
@@ -37,6 +40,14 @@ export const ListingEdit = (props: EditProps): React.ReactElement => {
           optionValue="value"
         />
         <TextInput label="Description" multiline source="description" />
+        <ReferenceArrayInput
+          source="images"
+          reference="Image"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={ImageTitle} />
+        </ReferenceArrayInput>
         <TextInput label="Location" source="location" />
         <ReferenceInput source="owner.id" reference="User" label="Owner">
           <SelectInput optionText={UserTitle} />

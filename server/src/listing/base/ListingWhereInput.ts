@@ -17,6 +17,7 @@ import { Type } from "class-transformer";
 import { EnumListingCondition } from "./EnumListingCondition";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { StringFilter } from "../../util/StringFilter";
+import { ImageListRelationFilter } from "../../image/base/ImageListRelationFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { BooleanNullableFilter } from "../../util/BooleanNullableFilter";
 
@@ -66,6 +67,18 @@ class ListingWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => ImageListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => ImageListRelationFilter)
+  @IsOptional()
+  @Field(() => ImageListRelationFilter, {
+    nullable: true,
+  })
+  images?: ImageListRelationFilter;
 
   @ApiProperty({
     required: false,
