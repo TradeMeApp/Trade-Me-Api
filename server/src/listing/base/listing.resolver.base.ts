@@ -19,7 +19,6 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { Public } from "../../decorators/public.decorator";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { CreateListingArgs } from "./CreateListingArgs";
 import { UpdateListingArgs } from "./UpdateListingArgs";
 import { DeleteListingArgs } from "./DeleteListingArgs";
@@ -153,13 +152,8 @@ export class ListingResolverBase {
     }
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.ResolveField(() => [Image], { name: "images" })
-  @nestAccessControl.UseRoles({
-    resource: "Image",
-    action: "read",
-    possession: "any",
-  })
   async resolveFieldImages(
     @graphql.Parent() parent: Listing,
     @graphql.Args() args: ImageFindManyArgs

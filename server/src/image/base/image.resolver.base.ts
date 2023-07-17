@@ -17,9 +17,8 @@ import * as nestAccessControl from "nest-access-control";
 import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
-import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { CreateImageArgs } from "./CreateImageArgs";
 import { UpdateImageArgs } from "./UpdateImageArgs";
 import { DeleteImageArgs } from "./DeleteImageArgs";
@@ -37,12 +36,8 @@ export class ImageResolverBase {
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
+  @Public()
   @graphql.Query(() => MetaQueryPayload)
-  @nestAccessControl.UseRoles({
-    resource: "Image",
-    action: "read",
-    possession: "any",
-  })
   async _imagesMeta(
     @graphql.Args() args: ImageCountArgs
   ): Promise<MetaQueryPayload> {
@@ -52,24 +47,14 @@ export class ImageResolverBase {
     };
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => [Image])
-  @nestAccessControl.UseRoles({
-    resource: "Image",
-    action: "read",
-    possession: "any",
-  })
   async images(@graphql.Args() args: ImageFindManyArgs): Promise<Image[]> {
     return this.service.findMany(args);
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => Image, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Image",
-    action: "read",
-    possession: "own",
-  })
   async image(
     @graphql.Args() args: ImageFindUniqueArgs
   ): Promise<Image | null> {
