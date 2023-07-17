@@ -11,7 +11,9 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { IsString, IsOptional, ValidateNested } from "class-validator";
+import { ListingCreateNestedManyWithoutCategoriesInput } from "./ListingCreateNestedManyWithoutCategoriesInput";
+import { Type } from "class-transformer";
 
 @InputType()
 class CategoryCreateInput {
@@ -36,6 +38,18 @@ class CategoryCreateInput {
     nullable: true,
   })
   imageUrl?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => ListingCreateNestedManyWithoutCategoriesInput,
+  })
+  @ValidateNested()
+  @Type(() => ListingCreateNestedManyWithoutCategoriesInput)
+  @IsOptional()
+  @Field(() => ListingCreateNestedManyWithoutCategoriesInput, {
+    nullable: true,
+  })
+  listings?: ListingCreateNestedManyWithoutCategoriesInput;
 
   @ApiProperty({
     required: true,

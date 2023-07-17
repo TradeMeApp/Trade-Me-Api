@@ -26,6 +26,8 @@ import { CategoryCountArgs } from "./CategoryCountArgs";
 import { CategoryFindManyArgs } from "./CategoryFindManyArgs";
 import { CategoryFindUniqueArgs } from "./CategoryFindUniqueArgs";
 import { Category } from "./Category";
+import { ListingFindManyArgs } from "../../listing/base/ListingFindManyArgs";
+import { Listing } from "../../listing/base/Listing";
 import { CategoryService } from "../category.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Category)
@@ -126,5 +128,20 @@ export class CategoryResolverBase {
       }
       throw error;
     }
+  }
+
+  @Public()
+  @graphql.ResolveField(() => [Listing], { name: "listings" })
+  async resolveFieldListings(
+    @graphql.Parent() parent: Category,
+    @graphql.Args() args: ListingFindManyArgs
+  ): Promise<Listing[]> {
+    const results = await this.service.findListings(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

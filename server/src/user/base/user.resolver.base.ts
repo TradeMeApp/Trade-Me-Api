@@ -27,6 +27,8 @@ import { UserCountArgs } from "./UserCountArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
+import { ListingFindManyArgs } from "../../listing/base/ListingFindManyArgs";
+import { Listing } from "../../listing/base/Listing";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -126,5 +128,20 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @Public()
+  @graphql.ResolveField(() => [Listing], { name: "listings" })
+  async resolveFieldListings(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: ListingFindManyArgs
+  ): Promise<Listing[]> {
+    const results = await this.service.findListings(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }
