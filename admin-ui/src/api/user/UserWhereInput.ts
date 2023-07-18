@@ -9,7 +9,6 @@ export type UserWhereInput = {
   firstName?: StringNullableFilter;
   id?: StringFilter;
   imageUrl?: StringNullableFilter;
-  lastName?: StringNullableFilter;
   listings?: ListingListRelationFilter;
   username?: StringFilter;
 };

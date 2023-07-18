@@ -29,7 +29,6 @@ export const UserEdit = (props: EditProps): React.ReactElement => {
         </ReferenceArrayInput>
         <TextInput label="First Name" source="firstName" />
         <TextInput label="ImageUrl" source="imageUrl" />
-        <TextInput label="Last Name" source="lastName" />
         <ReferenceArrayInput
           source="listings"
           reference="Listing"

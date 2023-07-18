@@ -7,7 +7,6 @@ export type UserCreateInput = {
   comments?: CommentCreateNestedManyWithoutUsersInput;
   firstName?: string | null;
   imageUrl?: string | null;
-  lastName?: string | null;
   listings?: ListingCreateNestedManyWithoutUsersInput;
   password: string;
   roles: InputJsonValue;

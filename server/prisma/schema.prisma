@@ -14,7 +14,6 @@ model User {
   firstName String?
   id        String    @id @default(cuid())
   imageUrl  String?
-  lastName  String?
   listings  Listing[]
   password  String
   roles     Json
@@ -36,7 +35,7 @@ model Listing {
   category    Category             @relation(fields: [categoryId], references: [id])
   categoryId  String
   comments    Comment[]
-  condition   EnumListingCondition @default([Good])
+  condition   EnumListingCondition @default(["Good"])
   createdAt   DateTime             @default(now())
   description String?
   id          String               @id @default(cuid())

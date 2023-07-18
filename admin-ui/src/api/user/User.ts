@@ -9,7 +9,6 @@ export type User = {
   firstName: string | null;
   id: string;
   imageUrl: string | null;
-  lastName: string | null;
   listings?: Array<Listing>;
   roles: JsonValue;
   updatedAt: Date;
