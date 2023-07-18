@@ -7,7 +7,6 @@ export type UserUpdateInput = {
   comments?: CommentUpdateManyWithoutUsersInput;
   firstName?: string | null;
   imageUrl?: string | null;
-  lastName?: string | null;
   listings?: ListingUpdateManyWithoutUsersInput;
   password?: string;
   roles?: InputJsonValue;

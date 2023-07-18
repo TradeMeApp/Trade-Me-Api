@@ -18,8 +18,8 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
-import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { Public } from "../../decorators/public.decorator";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
 import { CreateCommentArgs } from "./CreateCommentArgs";
 import { UpdateCommentArgs } from "./UpdateCommentArgs";
 import { DeleteCommentArgs } from "./DeleteCommentArgs";
@@ -66,13 +66,8 @@ export class CommentResolverBase {
     return this.service.findMany(args);
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.Query(() => Comment, { nullable: true })
-  @nestAccessControl.UseRoles({
-    resource: "Comment",
-    action: "read",
-    possession: "own",
-  })
   async comment(
     @graphql.Args() args: CommentFindUniqueArgs
   ): Promise<Comment | null> {
@@ -213,15 +208,10 @@ export class CommentResolverBase {
     return result;
   }
 
-  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @Public()
   @graphql.ResolveField(() => Comment, {
     nullable: true,
     name: "commented",
-  })
-  @nestAccessControl.UseRoles({
-    resource: "Comment",
-    action: "read",
-    possession: "any",
   })
   async resolveFieldCommented(
     @graphql.Parent() parent: Comment
