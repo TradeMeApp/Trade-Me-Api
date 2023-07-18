@@ -1,0 +1,11 @@
+{
+  "name": "trade-me-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/TradeMeApp/Trade-Me-Api.git",
+  "author": "LalaIAm <lthorud12@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+  
+  }
+}
